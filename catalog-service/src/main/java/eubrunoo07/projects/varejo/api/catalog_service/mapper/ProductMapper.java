@@ -5,6 +5,7 @@ import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductResponseDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.enums.ProductCategory;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
+import eubrunoo07.projects.varejo.api.catalog_service.model.SupplyDetails;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +45,12 @@ public class ProductMapper {
                 .category(product.getCategory().name())
                 .supplyDetails(supplyDetails)
                 .build();
+    }
+
+    public SupplyDetails map(SupplyDetailsDTO dto){
+        SupplyDetails supplyDetails = new SupplyDetails();
+        BeanUtils.copyProperties(dto, supplyDetails);
+        return supplyDetails;
     }
 
 }
