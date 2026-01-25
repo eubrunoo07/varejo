@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+for db in catalog inventory sales losses replenishment_orders; do
+    echo "Creating database: $db"
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+        CREATE DATABASE "$db";
+EOSQL
+done

@@ -1,0 +1,30 @@
+package eubrunoo07.projects.varejo.api.catalog_service.enums;
+
+import lombok.Getter;
+
+@Getter
+public enum ProductCategory {
+
+    // PRODUTOS PERECÍVEIS (Exigem conservação e têm validade curta)
+    PERECIVEL_CARNES_E_PEIXES,
+    PERECIVEL_LATICINIOS,
+    PERECIVEL_HORTIFRUTI,
+    PERECIVEL_PADARIA,
+    PERECIVEL_CONGELADOS,
+
+    // PRODUTOS NÃO PERECÍVEIS (Longa vida útil, armazenamento seco)
+    NAO_PERECIVEL_GRAOS_E_CEREAIS,
+    NAO_PERECIVEL_ENLATADOS,
+    NAO_PERECIVEL_BEBIDAS,
+    NAO_PERECIVEL_HIGIENE_PESSOAL,
+    NAO_PERECIVEL_LIMPEZA_DOMESTICA,
+    NAO_PERECIVEL_MERCEARIA_DOCE,
+
+    // ELETRÔNICOS (Produtos duráveis e tecnológicos)
+    ELETRONICO_ELETROPORTATEIS,
+    ELETRONICO_INFORMATICA,
+    ELETRONICO_TELEFONIA,
+    ELETRONICO_ENTRETENIMENTO,
+    ELETRONICO_CUIDADOS_PESSOAIS
+
+}
