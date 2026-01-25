@@ -33,4 +33,9 @@ public class Product {
     @Embedded
     private SupplyDetails supplyDetails;
 
+    @PrePersist
+    protected void prePersist(){
+        this.active = true;
+    }
+
 }
