@@ -1,6 +1,7 @@
 package eubrunoo07.projects.varejo.api.catalog_service.service.impl;
 
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductRequestDTO;
+import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.mapper.ProductMapper;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
 import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
@@ -23,6 +24,24 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.map(dto);
         product.setSku(generateSkuCode(product.getName(), product.getCategory().name()));
         return productRepository.save(product);
+    }
+
+    @Override
+    public void addSupplyDetailsOnProduct(SupplyDetailsDTO dto, String sku) {
+
+        if(dto.getLeadTimeDays() < 1){
+            throw new IllegalArgumentException("Lead time days must be at least 1.");
+        }
+        if(dto.getShelfLifeDays() < 1){
+            throw new IllegalArgumentException("Shelf life days must be at least 1.");
+        }
+        if(dto.getMinOrderQuantity() < 1){
+            throw new IllegalArgumentException("Minimum order quantity must be at least 1.");
+        }
+
+        Product product = productRepository.findBySku(sku).orElseThrow(() -> new IllegalArgumentException("Product with SKU " + sku + " not found."));
+        product.setSupplyDetails(productMapper.map(dto));
+        productRepository.save(product);
     }
 
     private String generateSkuCode(String name, String category){
