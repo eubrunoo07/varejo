@@ -1,12 +1,16 @@
 package eubrunoo07.projects.varejo.api.catalog_service.service.impl;
 
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductRequestDTO;
+import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductResponseDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.mapper.ProductMapper;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
 import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
 import eubrunoo07.projects.varejo.api.catalog_service.service.ProductService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -42,6 +46,18 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findBySku(sku).orElseThrow(() -> new IllegalArgumentException("Product with SKU " + sku + " not found."));
         product.setSupplyDetails(productMapper.map(dto));
         productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return productMapper.map(products);
+    }
+
+    @Override
+    public ProductResponseDTO getProductById(UUID id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product with ID " + id + " not found."));
+        return productMapper.map(product);
     }
 
     private String generateSkuCode(String name, String category){
