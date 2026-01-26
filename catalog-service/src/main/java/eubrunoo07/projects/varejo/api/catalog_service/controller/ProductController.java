@@ -42,4 +42,9 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable UUID id){
         return ResponseEntity.ok().body(productService.getProductById(id));
     }
+
+    @GetMapping("/sku/{sku}")
+    public ResponseEntity<ProductResponseDTO> getProductBySku(@PathVariable String sku){
+        return ResponseEntity.ok().body(productService.getProductBySku(sku));
+    }
 }
