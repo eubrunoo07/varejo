@@ -3,10 +3,12 @@ package eubrunoo07.projects.varejo.api.catalog_service.service.impl;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductRequestDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductResponseDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
+import eubrunoo07.projects.varejo.api.catalog_service.enums.ProductCategory;
 import eubrunoo07.projects.varejo.api.catalog_service.mapper.ProductMapper;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
 import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
 import eubrunoo07.projects.varejo.api.catalog_service.service.ProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,6 +66,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDTO getProductBySku(String sku) {
         Product product = productRepository.findBySku(sku).orElseThrow(() -> new IllegalArgumentException("Product with SKU " + sku + " not found."));
         return productMapper.map(product);
+    }
+
+    @Override
+    public void updateProduct(UUID id, ProductRequestDTO dto) {
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found."));
+        BeanUtils.copyProperties(dto, existingProduct, "id", "sku", "supplyDetails");
+        existingProduct.setCategory(ProductCategory.valueOf(dto.getCategory()));
+        productRepository.save(existingProduct);
     }
 
     private String generateSkuCode(String name, String category){
