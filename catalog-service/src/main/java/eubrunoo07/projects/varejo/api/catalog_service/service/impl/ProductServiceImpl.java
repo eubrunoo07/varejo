@@ -76,6 +76,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
     }
 
+    @Override
+    public void updateProductSupply(UUID id, SupplyDetailsDTO dto) {
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found."));
+        BeanUtils.copyProperties(dto, existingProduct.getSupplyDetails());
+        productRepository.save(existingProduct);
+    }
+
     private String generateSkuCode(String name, String category){
         String namePart = name.length() >= 3 ? name.substring(0, 3).toUpperCase() : name.toUpperCase();
         String categoryPart = category.length() >= 3 ? category.substring(0, 3).toUpperCase() : category.toUpperCase();
