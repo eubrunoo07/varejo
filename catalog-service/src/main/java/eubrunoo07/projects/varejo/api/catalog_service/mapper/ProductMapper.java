@@ -6,11 +6,21 @@ import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.enums.ProductCategory;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
 import eubrunoo07.projects.varejo.api.catalog_service.model.SupplyDetails;
+import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ProductMapper {
+
+    private final ProductRepository productRepository;
+
+    public ProductMapper(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public Product map(ProductRequestDTO dto){
         Product product = new Product();
@@ -47,10 +57,44 @@ public class ProductMapper {
                 .build();
     }
 
+    public List<ProductResponseDTO> map(List<Product> products){
+        List<ProductResponseDTO> response = new ArrayList<>();
+        products.forEach(product -> {
+            SupplyDetailsDTO supplyDetails = null;
+            if(product.getSupplyDetails() != null){
+                supplyDetails = map(product.getSupplyDetails());
+            }
+
+            ProductResponseDTO productResponse = ProductResponseDTO
+                    .builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .description(product.getDescription())
+                    .sku(product.getSku())
+                    .price(product.getPrice())
+                    .active(product.getActive())
+                    .category(product.getCategory().name())
+                    .supplyDetails(supplyDetails)
+                    .build();
+            response.add(productResponse);
+        });
+        return response;
+    }
+
     public SupplyDetails map(SupplyDetailsDTO dto){
         SupplyDetails supplyDetails = new SupplyDetails();
         BeanUtils.copyProperties(dto, supplyDetails);
         return supplyDetails;
+    }
+
+    public SupplyDetailsDTO map(SupplyDetails supplyDetails){
+        return SupplyDetailsDTO
+                .builder()
+                .supplierCompany(supplyDetails.getSupplierCompany())
+                .leadTimeDays(supplyDetails.getLeadTimeDays())
+                .minOrderQuantity(supplyDetails.getMinOrderQuantity())
+                .shelfLifeDays(supplyDetails.getShelfLifeDays())
+                .build();
     }
 
 }
