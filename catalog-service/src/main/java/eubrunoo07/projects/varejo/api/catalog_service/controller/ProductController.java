@@ -53,4 +53,10 @@ public class ProductController {
         productService.updateProduct(id, dto);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/supply/{id}")
+    public ResponseEntity<Void> updateProductSupply(@PathVariable UUID id, @RequestBody@Valid SupplyDetailsDTO dto){
+        productService.updateProductSupply(id, dto);
+        return ResponseEntity.ok().build();
+    }
 }
