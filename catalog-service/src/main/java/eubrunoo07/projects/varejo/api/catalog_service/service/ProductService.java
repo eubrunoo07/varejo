@@ -19,4 +19,6 @@ public interface ProductService {
     ProductResponseDTO getProductById(UUID id);
 
     ProductResponseDTO getProductBySku(String sku);
+
+    void updateProduct(UUID id, @Valid ProductRequestDTO dto);
 }

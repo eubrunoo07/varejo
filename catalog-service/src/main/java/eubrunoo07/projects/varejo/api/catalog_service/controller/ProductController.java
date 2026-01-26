@@ -47,4 +47,10 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> getProductBySku(@PathVariable String sku){
         return ResponseEntity.ok().body(productService.getProductBySku(sku));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProduct(@PathVariable UUID id, @RequestBody@Valid ProductRequestDTO dto){
+        productService.updateProduct(id, dto);
+        return ResponseEntity.ok().build();
+    }
 }
