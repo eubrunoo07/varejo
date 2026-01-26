@@ -5,6 +5,7 @@ import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductResponseDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.service.ProductService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,12 @@ public class ProductController {
     @PutMapping("/supply/{id}")
     public ResponseEntity<Void> updateProductSupply(@PathVariable UUID id, @RequestBody@Valid SupplyDetailsDTO dto){
         productService.updateProductSupply(id, dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id){
+        productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -23,4 +23,6 @@ public interface ProductService {
     void updateProduct(UUID id, @Valid ProductRequestDTO dto);
 
     void updateProductSupply(UUID id, @Valid SupplyDetailsDTO dto);
+
+    void deleteProduct(UUID id);
 }
