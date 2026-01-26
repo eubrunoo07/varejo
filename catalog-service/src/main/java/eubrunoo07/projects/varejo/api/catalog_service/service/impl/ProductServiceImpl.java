@@ -60,6 +60,12 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.map(product);
     }
 
+    @Override
+    public ProductResponseDTO getProductBySku(String sku) {
+        Product product = productRepository.findBySku(sku).orElseThrow(() -> new IllegalArgumentException("Product with SKU " + sku + " not found."));
+        return productMapper.map(product);
+    }
+
     private String generateSkuCode(String name, String category){
         String namePart = name.length() >= 3 ? name.substring(0, 3).toUpperCase() : name.toUpperCase();
         String categoryPart = category.length() >= 3 ? category.substring(0, 3).toUpperCase() : category.toUpperCase();

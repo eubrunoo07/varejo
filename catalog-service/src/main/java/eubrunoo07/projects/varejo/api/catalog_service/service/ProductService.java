@@ -17,4 +17,6 @@ public interface ProductService {
     List<ProductResponseDTO> getAllProducts();
 
     ProductResponseDTO getProductById(UUID id);
+
+    ProductResponseDTO getProductBySku(String sku);
 }
