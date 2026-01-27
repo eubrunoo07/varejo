@@ -3,9 +3,11 @@ package eubrunoo07.projects.varejo.api.catalog_service.service.impl;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductRequestDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.ProductResponseDTO;
 import eubrunoo07.projects.varejo.api.catalog_service.dto.SupplyDetailsDTO;
+import eubrunoo07.projects.varejo.api.catalog_service.enums.KafkaEventProducerAction;
 import eubrunoo07.projects.varejo.api.catalog_service.enums.ProductCategory;
 import eubrunoo07.projects.varejo.api.catalog_service.mapper.ProductMapper;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
+import eubrunoo07.projects.varejo.api.catalog_service.publisher.ProductCreatedPublisher;
 import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
 import eubrunoo07.projects.varejo.api.catalog_service.service.ProductService;
 import org.springframework.beans.BeanUtils;
@@ -19,17 +21,21 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ProductCreatedPublisher productCreatedPublisher;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductCreatedPublisher productCreatedPublisher) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.productCreatedPublisher = productCreatedPublisher;
     }
 
     @Override
     public Product createProduct(ProductRequestDTO dto) {
         Product product = productMapper.map(dto);
         product.setSku(generateSkuCode(product.getName(), product.getCategory().name()));
-        return productRepository.save(product);
+        product = productRepository.save(product);
+        productCreatedPublisher.publishProductCreatedEvent(product, KafkaEventProducerAction.PRODUCT_CREATED);
+        return product;
     }
 
     @Override
