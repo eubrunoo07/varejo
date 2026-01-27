@@ -15,5 +15,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+varejo:
+  config:
+    kafka:
+      server-url: "http://localhost:29092"
+      topics:
+        product-events: "product-events"
+
 server:
   port: 8081
