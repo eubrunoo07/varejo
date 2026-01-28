@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.map(dto);
         product.setSku(generateSkuCode(product.getName(), product.getCategory().name()));
         product = productRepository.save(product);
-        productEventPublisher.publishProductCreatedEvent(product, KafkaEventProducerAction.PRODUCT_CREATED);
+        productEventPublisher.publishProductEvent(product, KafkaEventProducerAction.PRODUCT_CREATED);
         return product;
     }
 
@@ -44,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
         if(dto.getLeadTimeDays() < 1){
             throw new IllegalArgumentException("Lead time days must be at least 1.");
         }
-        if(dto.getShelfLifeDays() < 1){
-            throw new IllegalArgumentException("Shelf life days must be at least 1.");
+        if(dto.getShelfLifeDays() < 0){
+            throw new IllegalArgumentException("Shelf life days must be at least 0.");
         }
         if(dto.getMinOrderQuantity() < 1){
             throw new IllegalArgumentException("Minimum order quantity must be at least 1.");
@@ -53,7 +53,8 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productRepository.findBySku(sku).orElseThrow(() -> new IllegalArgumentException("Product with SKU " + sku + " not found."));
         product.setSupplyDetails(productMapper.map(dto));
-        productRepository.save(product);
+        product = productRepository.save(product);
+        productEventPublisher.publishProductEvent(product, KafkaEventProducerAction.PRODUCT_SUPPLY_CREATED);
     }
 
     @Override
