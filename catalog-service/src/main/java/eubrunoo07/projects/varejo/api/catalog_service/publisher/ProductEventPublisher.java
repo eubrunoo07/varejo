@@ -27,7 +27,7 @@ public class ProductEventPublisher {
         this.objectMapper = objectMapper;
     }
 
-    public void publishProductCreatedEvent(Product product, KafkaEventProducerAction action){
+    public void publishProductEvent(Product product, KafkaEventProducerAction action){
         try{
             var representation = productMapper.mapToRepresentation(product, action);
             var json = objectMapper.writeValueAsString(representation);
