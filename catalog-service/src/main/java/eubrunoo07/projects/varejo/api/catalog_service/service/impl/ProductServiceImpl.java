@@ -7,7 +7,7 @@ import eubrunoo07.projects.varejo.api.catalog_service.enums.KafkaEventProducerAc
 import eubrunoo07.projects.varejo.api.catalog_service.enums.ProductCategory;
 import eubrunoo07.projects.varejo.api.catalog_service.mapper.ProductMapper;
 import eubrunoo07.projects.varejo.api.catalog_service.model.Product;
-import eubrunoo07.projects.varejo.api.catalog_service.publisher.ProductCreatedPublisher;
+import eubrunoo07.projects.varejo.api.catalog_service.publisher.ProductEventPublisher;
 import eubrunoo07.projects.varejo.api.catalog_service.repository.ProductRepository;
 import eubrunoo07.projects.varejo.api.catalog_service.service.ProductService;
 import org.springframework.beans.BeanUtils;
@@ -21,12 +21,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final ProductCreatedPublisher productCreatedPublisher;
+    private final ProductEventPublisher productEventPublisher;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductCreatedPublisher productCreatedPublisher) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, ProductEventPublisher productEventPublisher) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
-        this.productCreatedPublisher = productCreatedPublisher;
+        this.productEventPublisher = productEventPublisher;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.map(dto);
         product.setSku(generateSkuCode(product.getName(), product.getCategory().name()));
         product = productRepository.save(product);
-        productCreatedPublisher.publishProductCreatedEvent(product, KafkaEventProducerAction.PRODUCT_CREATED);
+        productEventPublisher.publishProductCreatedEvent(product, KafkaEventProducerAction.PRODUCT_CREATED);
         return product;
     }
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ProductCreatedPublisher {
+public class ProductEventPublisher {
 
     @Value("${varejo.config.kafka.topics.product-events}")
     private String topic;
@@ -21,7 +21,7 @@ public class ProductCreatedPublisher {
     private final ProductMapper productMapper;
     private final ObjectMapper objectMapper;
 
-    public ProductCreatedPublisher(KafkaTemplate<String, String> kafkaTemplate, ProductMapper productMapper, ObjectMapper objectMapper) {
+    public ProductEventPublisher(KafkaTemplate<String, String> kafkaTemplate, ProductMapper productMapper, ObjectMapper objectMapper) {
         this.kafkaTemplate = kafkaTemplate;
         this.productMapper = productMapper;
         this.objectMapper = objectMapper;
