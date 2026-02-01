@@ -2,6 +2,7 @@ package eubrunoo07.projects.inventory_service.mapper;
 
 import eubrunoo07.projects.inventory_service.dto.StockMovementRequestDTO;
 import eubrunoo07.projects.inventory_service.dto.StockMovementResponseDTO;
+import eubrunoo07.projects.inventory_service.dto.StockRequestDTO;
 import eubrunoo07.projects.inventory_service.dto.StockResponseDTO;
 import eubrunoo07.projects.inventory_service.enums.MovementType;
 import eubrunoo07.projects.inventory_service.model.Stock;
@@ -44,7 +45,7 @@ public class StockMapper {
                 .build();
     }
 
-    public Stock map(StockResponseDTO dto){
+    public Stock map(StockRequestDTO dto){
         Stock stock = new Stock();
         BeanUtils.copyProperties(dto, stock);
         return stock;
