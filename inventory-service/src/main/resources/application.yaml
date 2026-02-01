@@ -15,8 +15,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#varejo:
-#  config:
+varejo:
+  config:
+    clients:
+      catalog-service:
+        url: "http://localhost:8081/v1/api/varejo/products"
 #    kafka:
 #      server-url: "http://localhost:29092"
 #      topics:
