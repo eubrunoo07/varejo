@@ -27,8 +27,11 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void createStock(StockRequestDTO dto) {
-        if(productClient.getProductById(dto.getProductId()).getBody().getId() == null){
+        if(productClient.getProductById(dto.getProductId()).getBody().getId() == null) {
             throw new IllegalArgumentException("Product with ID " + dto.getProductId() + " does not exist.");
+        }
+        if(stockRepository.existsByProductId(dto.getProductId())){
+            throw new IllegalArgumentException("Stock for product with ID " + dto.getProductId() + " already exists.");
         }
         validator.validateStockRequest(dto);
         Stock stock = stockMapper.map(dto);
