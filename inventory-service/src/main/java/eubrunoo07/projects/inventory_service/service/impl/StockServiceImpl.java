@@ -1,7 +1,6 @@
 package eubrunoo07.projects.inventory_service.service.impl;
 
 import eubrunoo07.projects.inventory_service.client.ProductClient;
-import eubrunoo07.projects.inventory_service.client.representation.ProductRepresentation;
 import eubrunoo07.projects.inventory_service.dto.StockRequestDTO;
 import eubrunoo07.projects.inventory_service.mapper.StockMapper;
 import eubrunoo07.projects.inventory_service.model.Stock;
