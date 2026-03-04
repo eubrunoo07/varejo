@@ -45,4 +45,12 @@ public class StockServiceImpl implements StockService {
                 .findByProductId(productId).orElseThrow(() ->
                         new IllegalArgumentException("Stock for product with ID " + productId + " not found."));
     }
+
+    @Override
+    public void adjustSafetyStock(UUID productId, int safetyStock) {
+        Stock stock = stockRepository.findByProductId(productId).orElseThrow(() ->
+                new IllegalArgumentException("Stock for product with ID " + productId + " not found."));
+        stock.setMinimumSafetyStock(safetyStock);
+        stockRepository.save(stock);
+    }
 }

@@ -10,4 +10,6 @@ public interface StockService {
     void createStock(StockRequestDTO dto);
 
     Stock stockByProductId(UUID productId);
+
+    void adjustSafetyStock(UUID productId, int safetyStock);
 }
