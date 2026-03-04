@@ -34,4 +34,10 @@ public class StockController {
         return ResponseEntity.ok(stockMapper.map(stockService.stockByProductId(productId)));
     }
 
+    @PatchMapping("/{productId}/safety-stock")
+    public ResponseEntity<Void> adjustSafetyStock(@PathVariable UUID productId, @RequestParam int safetyStock){
+        stockService.adjustSafetyStock(productId, safetyStock);
+        return ResponseEntity.ok().build();
+    }
+
 }
