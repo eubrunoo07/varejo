@@ -10,6 +10,8 @@ import eubrunoo07.projects.inventory_service.service.StockService;
 import eubrunoo07.projects.inventory_service.validator.StockValidator;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class StockServiceImpl implements StockService {
 
@@ -33,5 +35,12 @@ public class StockServiceImpl implements StockService {
         validator.validateStockRequest(dto);
         Stock stock = stockMapper.map(dto);
         stockRepository.save(stock);
+    }
+
+    @Override
+    public Stock stockByProductId(UUID productId) {
+        return stockRepository
+                .findByProductId(productId).orElseThrow(() ->
+                        new IllegalArgumentException("Stock for product with ID " + productId + " not found."));
     }
 }
