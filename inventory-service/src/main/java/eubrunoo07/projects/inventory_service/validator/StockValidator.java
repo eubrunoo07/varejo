@@ -1,5 +1,6 @@
 package eubrunoo07.projects.inventory_service.validator;
 
+import eubrunoo07.projects.inventory_service.dto.StockMovementRequestDTO;
 import eubrunoo07.projects.inventory_service.dto.StockRequestDTO;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,12 @@ public class StockValidator {
         }
         if(dto.getQuantityWarehouse() < 0) {
             throw new IllegalArgumentException("Warehouse quantity cannot be negative.");
+        }
+    }
+
+    public void validateStockMovementRequest(StockMovementRequestDTO dto){
+        if(dto.getQuantity() <= 0){
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
     }
 

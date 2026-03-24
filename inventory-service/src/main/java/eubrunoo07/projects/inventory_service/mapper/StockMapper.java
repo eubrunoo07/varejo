@@ -4,9 +4,11 @@ import eubrunoo07.projects.inventory_service.dto.StockMovementRequestDTO;
 import eubrunoo07.projects.inventory_service.dto.StockMovementResponseDTO;
 import eubrunoo07.projects.inventory_service.dto.StockRequestDTO;
 import eubrunoo07.projects.inventory_service.dto.StockResponseDTO;
+import eubrunoo07.projects.inventory_service.enums.KafkaEventProducerAction;
 import eubrunoo07.projects.inventory_service.enums.MovementType;
 import eubrunoo07.projects.inventory_service.model.Stock;
 import eubrunoo07.projects.inventory_service.model.StockMovement;
+import eubrunoo07.projects.inventory_service.publisher.representation.StockMovementRepresentation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,7 @@ public class StockMapper {
                 .quantity(stockMovement.getQuantity())
                 .type(stockMovement.getType())
                 .movementDate(stockMovement.getMovementDate())
+                .reason(stockMovement.getReason())
                 .build();
     }
 
@@ -49,5 +52,16 @@ public class StockMapper {
         Stock stock = new Stock();
         BeanUtils.copyProperties(dto, stock);
         return stock;
+    }
+
+    public StockMovementRepresentation mapToRepresentation(StockMovement stockMovement, KafkaEventProducerAction action) {
+        return StockMovementRepresentation.builder()
+                .action(action)
+                .productId(stockMovement.getProductId())
+                .quantity(stockMovement.getQuantity())
+                .type(stockMovement.getType())
+                .reason(stockMovement.getReason())
+                .movementDate(stockMovement.getMovementDate())
+                .build();
     }
 }

@@ -20,10 +20,10 @@ varejo:
     clients:
       catalog-service:
         url: "http://localhost:8081/v1/api/varejo/products"
-#    kafka:
-#      server-url: "http://localhost:29092"
-#      topics:
-#        product-events: "product-events"
+    kafka:
+      server-url: "http://localhost:29092"
+      topics:
+        inventory-events: "inventory-events"
 
 server:
   port: 8082
