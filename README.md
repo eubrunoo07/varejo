@@ -4,7 +4,7 @@ Gerenciamento de Inventário, Prevenção de Ruptura e Inteligência de Reposiç
 ---
 
 ## 📑 **Sobre o Projeto**
-O **Smart Retail** é uma solução de alta performance baseada em **Microsserviços** desenvolvida para resolver o maior gargalo do varejo moderno: a **falta de visibilidade de estoque**. Através de uma arquitetura **Event-Driven (EDA)**, o sistema garante que o dado circule entre o catálogo e o estoque com baixa latência e alta consistência.
+O **Varejo API** é uma solução de alta performance baseada em **Microsserviços** desenvolvida para resolver o maior gargalo do varejo moderno: a **falta de visibilidade de estoque**. Através de uma arquitetura **Event-Driven (EDA)**, o sistema garante que o dado circule entre o catálogo e o estoque com baixa latência e alta consistência.
 
 O grande diferencial deste projeto é a **Gestão Preditiva**: o sistema não apenas conta produtos, mas analisa dados logísticos como **Lead Time** (tempo de entrega) e **Shelf Life** (validade) para evitar que a gôndola fique vazia ou que produtos vençam no depósito.
 
